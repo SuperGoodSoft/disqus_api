@@ -40,8 +40,12 @@ describe DisqusApi::Api do
       let(:request_path) { '/api/3.0/invalid/request.json' }
       let(:response_code) { 1 }
 
-      specify do
-        expect { api.get(request_path) }.to raise_error(DisqusApi::InvalidApiRequestError, /"code"=>1/)
+      it "raises InvalidApiRequestError" do
+        expect { api.get(request_path) }.to raise_error do |error|
+          expect(error).to be_a(DisqusApi::InvalidApiRequestError)
+          expect(error.message).to match(/"code"\s*=>\s*1/)
+          expect(error.message).to match(/"body"\s*=>\s*nil/)
+        end
       end
     end
   end
@@ -61,8 +65,12 @@ describe DisqusApi::Api do
       let(:request_path) { '/api/3.0/invalid/request.json' }
       let(:response_code) { 1 }
 
-      specify do
-        expect { api.post(request_path) }.to raise_error(DisqusApi::InvalidApiRequestError, /"code"=>1/)
+      it "raises InvalidApiRequestError" do
+        expect { api.post(request_path) }.to raise_error do |error|
+          expect(error).to be_a(DisqusApi::InvalidApiRequestError)
+          expect(error.message).to match(/"code"\s*=>\s*1/)
+          expect(error.message).to match(/"body"\s*=>\s*nil/)
+        end
       end
     end
   end
