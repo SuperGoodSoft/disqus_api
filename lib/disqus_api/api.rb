@@ -28,9 +28,10 @@ module DisqusApi
     # @return [Faraday::Connection]
     def connection
       Faraday.new(connection_options) do |builder|
-        builder.use Faraday::Request::Multipart
+        builder.request :json
+        builder.response :json
+        builder.request :multipart
         builder.use Faraday::Request::UrlEncoded
-        builder.use Faraday::Response::ParseJson
 
         builder.params.merge!(DisqusApi.config.slice(:api_secret, :api_key, :access_token))
 
@@ -42,14 +43,22 @@ module DisqusApi
     # @param [String] path
     # @param [Hash] arguments
     def get(path, arguments = {})
-      perform_request { connection.get(path, arguments).body }
+      perform_request {
+        response_body = connection.get(path, arguments).body
+        response_body = JSON.parse(response_body) if response_body.is_a?(String)
+        response_body
+      }
     end
 
     # Performs custom POST request
     # @param [String] path
     # @param [Hash] arguments
     def post(path, arguments = {})
-      perform_request { connection.post(path, arguments).body }
+      perform_request {
+        response_body = connection.post(path, arguments).body
+        response_body = JSON.parse(response_body) if response_body.is_a?(String)
+        response_body
+      }
     end
 
     # DisqusApi.v3.---->>[users]<<-----.details

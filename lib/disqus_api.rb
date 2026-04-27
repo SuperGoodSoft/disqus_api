@@ -4,7 +4,7 @@ require 'active_support/core_ext/object/try'
 require 'yaml'
 require 'json'
 require 'faraday'
-require 'faraday_middleware'
+require 'faraday/multipart'
 
 require 'disqus_api/api'
 require 'disqus_api/namespace'
@@ -14,7 +14,6 @@ require 'disqus_api/invalid_api_request_error'
 require 'disqus_api/railtie' if defined?(Rails)
 
 module DisqusApi
-
   def self.adapter
     @adapter || Faraday.default_adapter
   end
