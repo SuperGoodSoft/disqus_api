@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'faraday', '>= 2.0', '< 3'
-  s.add_development_dependency 'faraday-multipart'
+  s.add_runtime_dependency 'faraday-multipart'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rspec-its'
   s.add_development_dependency 'rake'
